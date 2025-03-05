@@ -7,20 +7,13 @@ export class Currency {
 
   @Column({
     unique: true,
-    nullable: false,
   })
   name: string;
 
-  @Column({
-    nullable: false,
-  })
+  @Column({})
   ticker: string;
-  @Column({
-    nullable: false,
-  })
+  @Column({})
   price: number;
-  @Column({
-    nullable: false,
-  })
-  amount: string;
+  @Column({})
+  amount: number;
 }

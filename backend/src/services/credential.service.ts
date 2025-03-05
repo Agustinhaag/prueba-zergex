@@ -12,15 +12,15 @@ export const createCredentialService = async (
     const { password } = credentialDto;
 
     const tempCredential = new Credential();
-    tempCredential.password = password; // Validamos la contraseña sin hash
+    tempCredential.password = password; 
    
 
-    await validateOrReject(tempCredential); // Validación con class-validator
+    await validateOrReject(tempCredential); 
 
-    // Si pasa la validación, hashear la contraseña
+    
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Crear credencial y guardarla
+   
     const credential = credentialModel.create({
       password: hashedPassword, 
     });

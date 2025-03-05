@@ -6,7 +6,7 @@ import {
 } from "./credential.service";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config/envs";
-import { LoginUserDto } from "../dto/usersDto";
+import { LoginUserDto, RegisterUserDto } from "../dto/usersDto";
 import { User } from "../entities/User";
 
 export const checkUserExists = async (email: string): Promise<boolean> => {
@@ -15,7 +15,7 @@ export const checkUserExists = async (email: string): Promise<boolean> => {
 };
 
 export const registerUserService = async (
-  registerUserDto: LoginUserDto
+  registerUserDto: RegisterUserDto
 ): Promise<string> => {
   try {
     const user = userModel.create(registerUserDto);
@@ -29,13 +29,9 @@ export const registerUserService = async (
     return "Registro exitoso";
   } catch (error: any) {
     console.error("Error al registrar usuario");
-
-    // Si es un error de validación (específicamente de la contraseña)
     if (error instanceof ClientError) {
       return Promise.reject(new ClientError(error.message, 400));
     }
-
-    // Si no es un error de validación, es un error interno
     throw new ClientError("No se pudo crear el usuario", 500);
   }
 };
@@ -48,13 +44,13 @@ export const loginUserService = async (
       where: {
         email: loginUserDto.email,
       },
+      relations:["credential"]
     });
 
     if (!user) {
       throw new ClientError("El usuario no está registrado", 404);
     }
 
-    // Verifica la contraseña
     const isPasswordValid = await checkPasswordService(
       loginUserDto.password,
       user.credential.password
@@ -63,17 +59,17 @@ export const loginUserService = async (
       throw new ClientError("Credenciales incorrectas", 400);
     }
 
-    // Genera el token JWT
+    
     const token = jwt.sign({ userId: user.id }, JWT_SECRET);
 
     return { token, user };
   } catch (error) {
     console.error("Error en loginUserService:", error);
-    throw error; // Lanza el error para que se maneje en un nivel superior
+    throw error; 
   }
 };
 
-export const findUserById = async (id: number): Promise<User> => {
+export const findUserById = async (id: string): Promise<User> => {
   try {
     const user = await userModel.findOne({
       where: { id },

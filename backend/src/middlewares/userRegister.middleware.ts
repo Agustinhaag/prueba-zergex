@@ -1,19 +1,17 @@
 import { NextFunction, Request, Response } from "express";
 import { ClientError } from "../utils/errors";
-import { checkUserExists } from "../service/user.service";
+import { checkUserExists } from "../services/user.service";
 
 export const validateUserRegister = (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const { email, password, name, surname} =
+  const { email, password} =
     req.body;
   if (
     !email ||
-    !password ||
-    !name ||
-    !surname 
+    !password 
   )
     next(new ClientError("Debe enviar todos los campos requeridos",400));
   else next();

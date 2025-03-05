@@ -7,12 +7,12 @@ import {
 } from "../services/user.service";
 import { User } from "../entities/User";
 
-
 export const userRegister = catchedController(
   async (req: Request, res: Response) => {
-    const { email, password } = req.body;
+    const { email, name, password } = req.body;
     const newUser = await registerUserService({
       email,
+      name,
       password,
     });
     res.status(201).send({ register: true });
@@ -26,15 +26,13 @@ export const userLogin = catchedController(
       email,
       password,
     });
-    res
-      .status(201)
-      .send({ token: data.token, login: true, userStatus: data.user.status });
+    res.status(201).send({ token: data.token, login: true });
   }
 );
 
 export const getUserById = catchedController(
   async (req: Request, res: Response): Promise<any> => {
-    const id = Number(req.params.id);
+    const { id } = req.params;
     const user: User = await findUserById(id);
     res.status(200).json(user);
   }

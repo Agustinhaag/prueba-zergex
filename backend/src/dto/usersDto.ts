@@ -3,6 +3,12 @@ export interface LoginUserDto {
     password: string
 }
 
+export interface RegisterUserDto {
+    email: string
+    name:string
+    password: string
+}
+
 export interface CreateCredentialDto {
     password: string;
 }

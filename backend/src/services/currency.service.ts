@@ -5,7 +5,11 @@ import { ClientError } from "../utils/errors";
 export const getCoins = async () => {
   try {
     const coins = await currencyModel.find();
-    return coins;
+    const coinsWithInvestment = coins.map((coin) => ({
+      ...coin,
+      investmentAmount: coin.investmentAmount,
+    }));
+    return coinsWithInvestment;
   } catch (error) {
     throw new ClientError(
       "No se pudo recuperar la informaciòn de todas las criptomonedas",
@@ -22,20 +26,34 @@ export const postCoin = async (currency: CurrencyDto) => {
     }
     const newCurrency = currencyModel.create(currency);
     await currencyModel.save(newCurrency);
-    return "Creación exitosa";
+    return newCurrency;
   } catch (error) {
     throw new ClientError("No se pudo crear la criptomoneda", 500);
   }
 };
 
-export const updateCoin = async (id: number) => {
+export const updateCoin = async (id: string, currency: CurrencyDto) => {
   try {
+    const existingCurrency = await currencyModel.findOneBy({ id });
+    if (!existingCurrency) {
+      throw new ClientError("La moneda no está registrada", 404);
+    }
+
+    if (currency.name) existingCurrency.name = currency.name;
+    if (currency.ticker) existingCurrency.ticker = currency.ticker;
+    if (currency.price !== undefined) existingCurrency.price = currency.price;
+    if (currency.amount !== undefined)
+      existingCurrency.amount = currency.amount;
+
+    await currencyModel.save(existingCurrency);
+
+    return existingCurrency;
   } catch (error) {
-    console.log(error);
+    throw new ClientError("No se pudo editar la criptomoneda", 500);
   }
 };
 
-export const deleteCoin = async (id: number) => {
+export const deleteCoin = async (id: string) => {
   try {
     const currency = await currencyModel.findOneBy({ id });
     if (!currency) {
@@ -44,6 +62,6 @@ export const deleteCoin = async (id: number) => {
     const currencyDelete = await currencyModel.delete(id);
     return "Moneda eliminada exitosamente";
   } catch (error) {
-    console.log(error);
+    throw new ClientError("No se pudo eliminar la criptomoneda", 500);
   }
 };

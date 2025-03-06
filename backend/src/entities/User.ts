@@ -2,10 +2,12 @@ import {
   Column,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Credential } from "./Credentials";
+import { Currency } from "./Currency";
 
 @Entity({ name: "users" })
 export class User {
@@ -26,4 +28,7 @@ export class User {
   @OneToOne(() => Credential)
   @JoinColumn()
   credential: Credential;
+
+  @OneToMany(() => Currency, (coin) => coin.user) 
+  coins: Currency[];
 }

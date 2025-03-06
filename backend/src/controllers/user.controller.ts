@@ -26,7 +26,7 @@ export const userLogin = catchedController(
       email,
       password,
     });
-    res.status(201).send({ token: data.token, login: true });
+    res.status(201).send(data);
   }
 );
 

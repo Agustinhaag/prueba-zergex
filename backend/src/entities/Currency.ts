@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { User } from "./User";
 
 @Entity({ name: "coins" })
 export class Currency {
@@ -16,6 +17,10 @@ export class Currency {
   price: number;
   @Column({})
   amount: number;
+
+  @ManyToOne(() => User, (user) => user.coins) 
+  @JoinColumn({ name: 'userId' })
+  user: User;
 
   get investmentAmount(): number {
     return this.price * this.amount;

@@ -58,11 +58,10 @@ export const loginUserService = async (
     if (!isPasswordValid) {
       throw new ClientError("Credenciales incorrectas", 400);
     }
-
     
     const token = jwt.sign({ userId: user.id }, JWT_SECRET);
 
-    return { token, user };
+    return { token, id:user.id ,name: user.name, email: user.email };
   } catch (error) {
     console.error("Error en loginUserService:", error);
     throw error; 
@@ -74,6 +73,7 @@ export const findUserById = async (id: string): Promise<User> => {
     const user = await userModel.findOne({
       where: { id },
     });
+    
     if (!user) {
       throw new ClientError("El usuario no existe", 404);
     }

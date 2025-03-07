@@ -68,7 +68,7 @@ export const useRegister = () => {
   return useMutation({
     mutationFn: registerUser,
     onSuccess: (data: boolean) => {
-      console.log("Registro exitoso");
+      console.log(data);
       Swal.fire({
         title: "Registro exitoso",
         text: "Se ha registrado correctamente.",

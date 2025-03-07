@@ -36,7 +36,7 @@ const CardCurrency: React.FC<{ currency: Coins }> = ({ currency }) => {
             token: token!,
           },
           {
-            onError: (error: any) => {
+            onError: () => {
               console.log("Error al eliminar moneda");
             },
             onSuccess: () => {},

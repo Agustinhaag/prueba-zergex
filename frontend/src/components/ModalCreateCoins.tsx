@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { IoMdClose } from "react-icons/io";
 import { CSSTransition } from "react-transition-group";
 import "../App.css";

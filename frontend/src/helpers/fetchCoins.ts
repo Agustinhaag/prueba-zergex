@@ -63,6 +63,7 @@ export const useCreateCoins = () => {
   return useMutation({
     mutationFn: createCoins,
     onSuccess: (data: Coins, variables) => {
+      console.log(data)
       queryClient.refetchQueries({
         queryKey: ["coins", variables.token, variables.url],
         exact: true,
@@ -100,6 +101,7 @@ export const useDeleteCoins = () => {
   return useMutation({
     mutationFn: deleteCoins,
     onSuccess: (data: void, variables) => {
+      console.log(data)
       queryClient.refetchQueries({
         queryKey: ["coins", variables.token, variables.url],
         exact: true,

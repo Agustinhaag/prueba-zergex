@@ -1,10 +1,10 @@
-import { Formik, Field, Form, ErrorMessage } from "formik";
+import { Formik} from "formik";
 import { validarLogin } from "../helpers/validateForms";
 import { Link, useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
 import { useState } from "react";
 import { useLogin } from "../helpers/fetchLogin";
 import FormLogin from "../components/FormLogin";
+import { ContainerGralForm, Parrafo, Section, Title } from "../components/StyledFormRegister";
 
 const Login = () => {
   const redirect = useNavigate();
@@ -13,12 +13,12 @@ const Login = () => {
   const { mutate } = useLogin();
 
   return (
-    <main className="login main bg-cover pb-4">
-      <section className="cont-login w-5/12 mx-auto py-2 mt-2 rounded-xl min-w-48">
-        <h2 className="text-center md:my-4 mx-0 md:text-3xl underline-offset-4 text-2xl my-5">
+    <main >
+      <Section >
+        <Title>
           Inicio de sesión
-        </h2>
-        <div className="cont-form w-4/5 mx-auto mb-4">
+        </Title>
+        <ContainerGralForm>
           <Formik
             initialValues={{
               email: "",
@@ -44,18 +44,16 @@ const Login = () => {
             }}
           >
             {(formikProps) => (
-            <FormLogin error={error} formikProps={formikProps}/>
+              <FormLogin error={error} formikProps={formikProps} />
             )}
           </Formik>
 
-          <p>
-            ¿Aún no tienes una cuenta?{" "}
-            <Link to="/register" className="no-underline">
-              Registrarse
-            </Link>
-          </p>
-        </div>
-      </section>
+          <Parrafo>
+            <span>¿Aún no tienes una cuenta?</span>
+            <Link to="/register" className="linkForm">Registrarse</Link>
+          </Parrafo>
+        </ContainerGralForm>
+      </Section>
     </main>
   );
 };

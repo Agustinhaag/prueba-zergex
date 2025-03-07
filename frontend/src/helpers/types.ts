@@ -25,9 +25,10 @@ export interface LoginResponse {
 }
 
 export interface Coins {
-  id:string;
+  id?:string;
   name: string;
   ticker: string;
-  price: string;
-  amount: string;
+  price: number;
+  amount: number;
+  investmentAmount?: number;
 }

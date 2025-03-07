@@ -4,10 +4,12 @@ import Register from "./views/Register";
 import Login from "./views/Login";
 import NotFound from "./views/NotFound";
 import ProtectedRoutes from "./middlewares/protectedRoute";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
     <>
+      <Navbar />
       <Routes>
         <Route element={<ProtectedRoutes />}>
           <Route path="/home" element={<Home />} />

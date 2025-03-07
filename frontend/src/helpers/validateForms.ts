@@ -42,3 +42,23 @@ export const validarLogin = (input: FormikValues): Partial<FormikValues> => {
   }
   return errors;
 };
+
+export const validarCurrency = (input: FormikValues): Partial<FormikValues> => {
+  const errors: Partial<FormikValues> = {};
+
+
+  if (!input.name) {
+    errors.name = "El nombre es requerido";
+  }
+  if (!input.ticker) {
+    errors.ticker = "El ticker es requerido";
+  }
+  if (!input.price) {
+    errors.price = "El precio es requerido";
+  }
+  if (!input.amount) {
+    errors.amount = "La cantidad es requerida";
+  }
+ 
+  return errors;
+};
